@@ -915,7 +915,8 @@ do
     fi
     case $sourcePath in
 	/dev/stdin)
-	    uniqueName="$PDFJAM_TEMP_DIR"/stdin.pdf
+	    uniqueName=stdin.pdf
+            uniqueNameFull="$PDFJAM_TEMP_DIR"/"$uniqueName"
 	    if test "$stdinUnread" = true
 	    then
 		if tty -s ; then
@@ -923,7 +924,7 @@ do
 		 "tty is connected to connected to stdin, no PDF/JPG/PNG file found" \
 			$E_NOINPUT
 		fi
-		cat > "$uniqueName"
+		cat > "$uniqueNameFull"
 		stdinUnread=false
 	    fi
 	    ;;
@@ -935,11 +936,11 @@ do
 	    cd "$pwd" || exit 1
 	    sourceFullPath="$sourceDir"/"$pdfName"
 	    uniqueName="source-$counter.pdf"
-	    uniqueName="$PDFJAM_TEMP_DIR"/"$uniqueName"
+	    uniqueNameFull="$PDFJAM_TEMP_DIR"/"$uniqueName"
 	    ## Next is from the Cygwin patch contributed by Lucas
 	    case $(uname) in
-		*CYGWIN*) cp "$sourceFullPath" "$uniqueName";;
-		*) ln -s "$sourceFullPath" "$uniqueName";;
+		*CYGWIN*) cp "$sourceFullPath" "$uniqueNameFull";;
+		*) ln -s "$sourceFullPath" "$uniqueNameFull";;
             esac
 	    ;;
     esac
